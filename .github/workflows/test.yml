@@ -22,9 +22,6 @@ jobs:
       - run: |
           echo $PATH
       - uses: ./
-      - name: Setup tmate session
-        uses: mxschmitt/action-tmate@v3
-
       - run: |
           echo $PATH
           tfenv install v1.0.0
