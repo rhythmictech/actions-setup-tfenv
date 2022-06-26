@@ -19,6 +19,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - run: |
+          echo $PATH
       - uses: ./
-        with:
-          milliseconds: 1000
+      - run: |
+          echo $PATH
+          tfenv install v1.0.0

@@ -1,16 +1,32 @@
 import * as core from '@actions/core'
-import {wait} from './wait'
+import * as exec from '@actions/exec'
+import * as path from 'path'
+import fs from 'fs'
 
-async function run(): Promise<void> {
+const HOME = process.env.HOME || '/opt'
+const INSTALL_PATH = path.join(HOME, '.tfenv')
+
+export async function run(): Promise<void> {
   try {
-    const ms: string = core.getInput('milliseconds')
-    core.debug(`Waiting ${ms} milliseconds ...`) // debug is only output if you set the secret `ACTIONS_STEP_DEBUG` to true
-
-    core.debug(new Date().toTimeString())
-    await wait(parseInt(ms, 10))
     core.debug(new Date().toTimeString())
 
-    core.setOutput('time', new Date().toTimeString())
+    if (!fs.existsSync(INSTALL_PATH)) {
+      await exec.exec('git', [
+        'clone',
+        'https://github.com/tfutils/tfenv.git',
+        INSTALL_PATH
+      ])
+    } else {
+      core.debug(`tfenv already exists at ${INSTALL_PATH}`)
+    }
+
+    const tfenv_path = path.join(INSTALL_PATH, 'bin')
+
+    core.debug(`Adding to path: ${tfenv_path}`)
+
+    core.addPath(tfenv_path)
+
+    core.debug(new Date().toTimeString())
   } catch (error) {
     if (error instanceof Error) core.setFailed(error.message)
   }
