@@ -1,7 +1,6 @@
 name: 'Setup Tfenv'
 description: 'Set up your GitHub Actions workflow with tfenv'
 author: '@sblack4'
-inputs:
 runs:
   using: 'node16'
   main: 'dist/index.js'
