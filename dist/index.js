@@ -38,10 +38,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.run = void 0;
 const core = __importStar(__nccwpck_require__(186));
 const exec = __importStar(__nccwpck_require__(514));
+const path = __importStar(__nccwpck_require__(622));
 const fs_1 = __importDefault(__nccwpck_require__(747));
-const INSTALL_PATH = `${process.env.HOME}/.tfenv`;
+const HOME = process.env.HOME || '/opt';
+const INSTALL_PATH = path.join(HOME, '.tfenv');
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -56,7 +59,7 @@ function run() {
             else {
                 core.debug(`tfenv already exists at ${INSTALL_PATH}`);
             }
-            const tfenv_path = INSTALL_PATH + '/bin';
+            const tfenv_path = path.join(INSTALL_PATH, 'bin');
             core.debug(`Adding to path: ${tfenv_path}`);
             core.addPath(tfenv_path);
             core.debug(new Date().toTimeString());
@@ -67,6 +70,7 @@ function run() {
         }
     });
 }
+exports.run = run;
 run();
 
 

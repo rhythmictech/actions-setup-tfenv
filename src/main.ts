@@ -1,10 +1,12 @@
 import * as core from '@actions/core'
 import * as exec from '@actions/exec'
+import * as path from 'path'
 import fs from 'fs'
 
-const INSTALL_PATH = `${process.env.HOME}/.tfenv`
+const HOME = process.env.HOME || '/opt'
+const INSTALL_PATH = path.join(HOME, '.tfenv')
 
-async function run(): Promise<void> {
+export async function run(): Promise<void> {
   try {
     core.debug(new Date().toTimeString())
 
@@ -18,7 +20,7 @@ async function run(): Promise<void> {
       core.debug(`tfenv already exists at ${INSTALL_PATH}`)
     }
 
-    const tfenv_path = INSTALL_PATH + '/bin'
+    const tfenv_path = path.join(INSTALL_PATH, 'bin')
 
     core.debug(`Adding to path: ${tfenv_path}`)
 
