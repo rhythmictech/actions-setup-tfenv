@@ -13,10 +13,12 @@ repos:
         args:
           - --unsafe
       - id: end-of-file-fixer
+        exclude: ^dist/
       - id: mixed-line-ending
         args:
           - --fix=lf
       - id: no-commit-to-branch
       - id: trailing-whitespace
+        exclude: ^dist/
         args:
           - --markdown-linebreak-ext=md
