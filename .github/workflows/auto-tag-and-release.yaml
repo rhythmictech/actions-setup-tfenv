@@ -1,0 +1,29 @@
+---
+name: Auto tag and release
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  tag_and_release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: '0'
+
+      - name: Bump version and push tag
+        id: tag
+        uses: anothrNick/github-tag-action@1.36.0
+        env:
+          DEFAULT_BUMP: patch
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          WITH_V: true
+
+      - name: Create release
+        run: |
+          gh release create ${{ steps.tag.outputs.tag }} --generate-notes
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
